@@ -11,11 +11,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 public class standAloneTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver=new ChromeDriver();
@@ -78,6 +79,23 @@ wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".ng-a
 WebElement cartbutton=wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[routerlink*='cart']")));
 js.executeScript("arguments[0].click();", cartbutton);
 //cartbutton.click();
+
+
+//cartproductlist
+
+List<WebElement> cartProducts=driver.findElements(By.cssSelector(".cartSection h3"));
+cartProducts.forEach(prods -> System.out.println("cart item"+prods.getText()));
+//anyMatch 
+Boolean match=cartProducts.stream().anyMatch(cartProduct -> cartProduct.getText().equals(productName));
+Assert.assertTrue(match,"product not found in the cart"+productName);
+//System.out.println(cartProduct);
+WebElement checkOutButton=wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".totalRow button")));
+((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkOutButton);
+Thread.sleep(1000);
+//added below javascriptexecutor bcz it was giving error "ElementClickInterceptedException
+((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkOutButton);
+//checkOutButton.click();
+
 	}
 
 }
