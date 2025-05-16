@@ -1,39 +1,41 @@
 package ecomp.seleniumjavadesign;
+
 import java.time.Duration;
+
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+//import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 import ecomp.pageobjects.LandingPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class standAloneTest {
+public class standAloneTestold {
 
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-
-		String productName = "ZARA COAT 3";
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
+		//creating object of driver 
+		LandingPage landingpage=new LandingPage(driver);
+		
+		
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
+		driver.get("https://rahulshettyacademy.com/client");
 
-//		driver.get("https://rahulshettyacademy.com/client");
-//		driver.findElement(By.id("userEmail")).sendKeys("poojarao123@gmail.com");
-//		driver.findElement(By.id("userPassword")).sendKeys("Pooja@123");
-//		driver.findElement(By.id("login")).click();
-// driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
-
-		// creating object of driver
-		LandingPage landingpage = new LandingPage(driver);
-		landingpage.goTo();
-		landingpage.loginApplication("poojarao123@gmail.com", "Pooja@123");
+		driver.findElement(By.id("userEmail")).sendKeys("poojarao123@gmail.com");
+		driver.findElement(By.id("userPassword")).sendKeys("Pooja@123");
+		driver.findElement(By.id("login")).click();
+		// driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(11));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.card-body")));
@@ -41,7 +43,7 @@ public class standAloneTest {
 
 		List<WebElement> products = driver.findElements(By.cssSelector("div.card-body"));
 		System.out.println("total products found: " + products.size());
-
+		String productName = "ZARA COAT 3";
 		WebElement prod = null;
 
 		for (WebElement product : products) {
